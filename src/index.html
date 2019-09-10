@@ -1,19 +1,26 @@
 <html>
     <head>
         <title>Hello Vue!</title>
-        <style>
-            .color-red { color: red; }
-            .color-blue { color: blue; }
-            .is-loading { background: red; }
-        </style>
         <!-- link rel="stylesheet" href="index.css"> -->
     </head>
     <body>
         <div id="root">
-            <button :class="{ 'is-loading': isLoading }" @click="toggleClass">Toggle Me</button>
-            <!-- <h1 :class="className">Hello World</h1> -->
-            <!-- <button @click="method" :title="title">Hover Over Me</button> -->
-            <!-- v-on:click="method" v-bind:title="title" -->
+            <h1>Complete Tasks</h1>
+            <ul>
+                <li v-for="task in tasks" v-if="task.completed" v-text="task.description"></li>
+            </ul>
+
+            <h2>Incomplete Tasks</h2>
+            <ul>
+                <li v-for="task in incompleteTasks" v-text="task.description"></li>
+            </ul>
+            <!-- 
+                <h1>
+                    {{ reversedMessage }}
+                    {{ message.split('').reverse().join('') }}
+                </h1>
+            -->
+            <!-- <h1 v-text="new Date()"></h1> -->
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -23,15 +30,24 @@
                 el: '#root',
 
                 data: {
-                    isLoading: false
-                    //className: 'color-red'
-                    //title: 'Now the title is being set through JavaScript'
+                    tasks: [
+                        { description: 'Go to the store', completed: true },
+                        { description: 'Finish screencast', completed: false }
+                    ]
+                    //message: 'Hello World'
                 },
 
-                methods: {
-                    toggleClass() {
-                        this.isLoading = true;
+                computed: {
+                    incompleteTasks() {
+                        return this.tasks.filter(task => ! task.completed);
+
+                        // this.tasks.filter(function (task) {
+                        //     return ! task.completed;
+                        // })
                     }
+                    // reversedMessage() {
+                    //     return this.message.split('').reverse().join('');
+                    // }
                 }
             })
             
